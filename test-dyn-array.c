@@ -21,6 +21,15 @@ int main() {
       Test* elem = (Test *)dyn_array_get(&vec, i);
     printf("val is: {%d, %f}\n", elem->x, elem->y);
   }
+
+  Test* t = (Test *)dyn_array_get(&vec, 23);
+  if(t){
+    printf("val is: {%d, %f}\n", t->x, t->y);
+  }
+  else{
+      printf("got null reading 23[expected]\n");
+  }
+
   printf("Final size is %zu and cap is %zu\n", vec.size, vec.cap);
   return 0;
 }

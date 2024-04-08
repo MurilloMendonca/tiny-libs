@@ -17,6 +17,15 @@ int main() {
   for (auto t: vec) {
     printf("val is: {%d, %f}\n", t.x, t.y);
   }
+
+  auto x = vec.get(23);
+  if(x){
+      printf("got value: {%d, %f}\n", x->x, x->y);
+  }
+  else{
+      printf("Could not get value 23 [expected]\n");
+  }
+
   printf("Final size is %zu and cap is %zu\n", vec.size(), vec.cap());
   return 0;
 }

@@ -1,5 +1,6 @@
 #define DYN_ARRAY_IMPL
 #include "dyn-array.h"
+#include <optional>
 template <typename T> class DynamicArray {
   Dyn_array _array;
 
@@ -36,7 +37,16 @@ public:
   DynamicArray() { _array = dyn_array_create(sizeof(T)); }
   ~DynamicArray() { dyn_array_destroy(&_array); }
 
-  T get(size_t index) { return *(reinterpret_cast<T*>(dyn_array_get(&_array, index))); }
+  std::optional<T> get(size_t index) {
+      T* t = reinterpret_cast<T*>(dyn_array_get(&_array, index)); 
+      if(t)
+        return *(t);
+      return std::nullopt;
+  }
+
+  T operator [] (size_t index){
+      return *reinterpret_cast<T*>(dyn_array_get(&_array, index)); 
+  }
   void push_back(T val) { dyn_array_push_back(&_array, &val); }
 
   size_t size() { return _array.size; }
