@@ -8,10 +8,18 @@ typedef void *Val_t;
 typedef size_t Index_t;
 typedef char Byte_t;
 
+/*  All this functions depend on an user-defined callback function
+ *  called bin_op_comp .
+ *  bin_op_comp is defined as comparison binary operator
+ *  it receives 2 parameters, being valid void pointer to values 'a' and 'b'
+ *  it is expected to return 0 if both values are equal
+ *  it is expected to return >0 if value a > b
+ */
+
 void quick_sort(Val_t begin, Index_t size, Index_t elem_size,
                 int (*bin_op_comp)(Val_t, Val_t));
 Index_t linear_search(Val_t begin, Index_t size, Index_t elem_size,
-                      Val_t target, int (*bin_op_equal)(Val_t, Val_t));
+                      Val_t target, int (*bin_op_comp)(Val_t, Val_t));
 
 Index_t binary_search(Val_t begin, Index_t size, Index_t elem_size,
                       Val_t target, int (*bin_op_comp)(Val_t, Val_t));
