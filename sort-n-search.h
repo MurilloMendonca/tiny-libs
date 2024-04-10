@@ -124,8 +124,11 @@ Index_t binary_search(Val_t begin, Index_t size, Index_t elem_size,
     if (bin_op_comp(begin + m * elem_size, target) > 0)
       left = m + 1;
 
-    else
+    else{
+      if (m == 0)
+            return size;
       right = m - 1;
+    }
   }
 
   return size;

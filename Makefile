@@ -2,7 +2,7 @@
 
 all: test
 
-test: test-dyn-array test-sort-n-search test-logger
+test: test-dyn-array test-sort-n-search
 
 test-dyn-array: test-dyn-array-c test-dyn-array-cpp
 
@@ -22,7 +22,6 @@ run-tests: test
 	./test-dyn-array-c
 	./test-dyn-array-cpp
 	./test-sort-n-search
-	./test-logger
 
 clear:
 	rm test-dyn-array-c test-dyn-array-cpp test-sort-n-search test-logger

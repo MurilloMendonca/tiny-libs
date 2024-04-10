@@ -36,6 +36,7 @@ void dyn_array_set(Dyn_array* da, Index_t index, Val_t elem);
 }
 void dyn_array_destroy(Dyn_array* da){
     free(da->_data);
+    da->_data = NULL;
     da->size = 0;
     da->cap  = 0;
 }

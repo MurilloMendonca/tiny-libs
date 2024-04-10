@@ -1,31 +1,61 @@
 #include "dyn-array.hpp"
-#include <stdio.h>
+#include <cstdio>
+#include "tester.h"
 
 typedef struct {
   int x;
   float y;
 } Test;
 
-int main() {
+TEST_CASE_BEGIN(CreateAndPushBack)
   DynamicArray<Test> vec;
+  TEST_ASSERT(vec.size() == 0);
+  TEST_ASSERT(vec.cap() == 5);
   for (int i = 0; i < 11; i++) {
     vec.push_back({i, 8.9});
   }
-  for (int i = 0; i < 11; i++) {
-    vec.push_back({i * 2, 8.9});
-  }
-  for (auto t: vec) {
-    printf("val is: {%d, %f}\n", t.x, t.y);
-  }
+  TEST_ASSERT(vec.size() == 11);
+  TEST_ASSERT(vec.cap() == 20);
+TEST_CASE_END(CreateAndPushBack)
 
-  auto x = vec.get(23);
-  if(x){
-      printf("got value: {%d, %f}\n", x->x, x->y);
-  }
-  else{
-      printf("Could not get value 23 [expected]\n");
-  }
+TEST_CASE_BEGIN(IteratorLoopOver)
+    DynamicArray<Test> vec;
+    for (int i = 0; i < 11; i++) {
+        vec.push_back({i, 8.9});
+    }
+    for (int i = 0; i < 11; i++) {
+        vec.push_back({i * 2, 8.9});
+    }
+    int i = 0;
+    for (auto t: vec) {
+        if (i < 11) {
+            TEST_ASSERT(t.x == i);
+        } else {
+            TEST_ASSERT(t.x == (i-11) * 2);
+        }
+        i++;
+    }
+    TEST_ASSERT(i == 22);
+TEST_CASE_END(IteratorLoopOver)
 
-  printf("Final size is %zu and cap is %zu\n", vec.size(), vec.cap());
-  return 0;
-}
+
+TEST_CASE_BEGIN(GetOptionalValue)
+    DynamicArray<Test> vec;
+    for (int i = 0; i < 11; i++) {
+        vec.push_back({i, 8.9});
+    }
+    for (int i = 0; i < 11; i++) {
+        vec.push_back({i * 2, 8.9});
+    }
+    auto x = vec.get(23);
+    TEST_ASSERT(x.has_value() == false);
+    TEST_ASSERT(vec.size() == 22);
+    TEST_ASSERT(vec.cap() == 40);
+TEST_CASE_END(GetOptionalValue)
+
+
+TESTER_START(DynamicArrayTestCpp)
+  RUN_TEST_CASE(CreateAndPushBack);
+  RUN_TEST_CASE(IteratorLoopOver);
+  RUN_TEST_CASE(GetOptionalValue);
+TESTER_END(DynamicArrayTestCpp)
