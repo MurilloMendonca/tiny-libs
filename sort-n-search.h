@@ -7,7 +7,7 @@
 typedef void *Val_t;
 typedef size_t Index_t;
 typedef char Byte_t;
-
+typedef int(*bin_op_comp_t)(Val_t,Val_t) ;
 /*  All this functions depend on an user-defined callback function
  *  called bin_op_comp .
  *  bin_op_comp is defined as comparison binary operator
@@ -16,13 +16,13 @@ typedef char Byte_t;
  *  it is expected to return >0 if value a > b
  */
 
-void quick_sort(Val_t begin, Index_t size, Index_t elem_size,
-                int (*bin_op_comp)(Val_t, Val_t));
+void quick_sort(Val_t begin, Index_t size, Index_t elem_size, 
+                bin_op_comp_t comparison_callback);
 Index_t linear_search(Val_t begin, Index_t size, Index_t elem_size,
-                      Val_t target, int (*bin_op_comp)(Val_t, Val_t));
+                      Val_t target, bin_op_comp_t comparison_callback);
 
 Index_t binary_search(Val_t begin, Index_t size, Index_t elem_size,
-                      Val_t target, int (*bin_op_comp)(Val_t, Val_t));
+                      Val_t target, bin_op_comp_t camparison_callback);
 #endif
 
 #ifdef SORT_N_SEARCH_IMPL

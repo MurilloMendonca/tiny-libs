@@ -4,14 +4,14 @@
 #define DYN_ARRAY_IMPL
 #include "dyn-array.h"
 
-int char_comp(void *c1, void *c2) { return *((char *)c1) - *((char *)c2); }
+int char_comp(char *c1, char *c2) { return *(c1) - *(c2); }
 
 typedef struct {
   int i;
   char c;
 } Test;
 
-int test_comp(void *a, void *b) { return ((Test *)a)->c - ((Test *)b)->c; }
+int test_comp(Test *a, Test *b) { return a->c - b->c; }
 int main() {
   char word[10];
   int i;
@@ -26,16 +26,16 @@ int main() {
   }
   printf("word: %.*s\n", 10, word);
 
-  b_index = linear_search(word, 10, sizeof(char), &b, char_comp);
+  b_index = linear_search(word, 10, sizeof(char), &b, (bin_op_comp_t)char_comp);
   printf("index of b: %zu\n", b_index);
 
-  z_index = linear_search(word, 10, sizeof(char), &z, char_comp);
+  z_index = linear_search(word, 10, sizeof(char), &z, (bin_op_comp_t)char_comp);
   printf("index of z: %zu\n", z_index);
 
-  quick_sort(word, 10, sizeof(char), char_comp);
+  quick_sort(word, 10, sizeof(char), (bin_op_comp_t)char_comp);
   printf("word: %.*s\n", 10, word);
 
-  b_index = binary_search(word, 10, sizeof(char), &b, char_comp);
+  b_index = binary_search(word, 10, sizeof(char), &b, (bin_op_comp_t)char_comp);
   printf("index of b: %zu\n", b_index);
 
   da = dyn_array_create(sizeof(Test));
@@ -53,15 +53,15 @@ int main() {
 
   t.i = 1;
   t.c = 'b';
-  b_index = linear_search(da._data, da.size, sizeof(Test), &t, test_comp);
+  b_index = linear_search(da._data, da.size, sizeof(Test), &t, (bin_op_comp_t)test_comp);
   printf("index of b: %zu\n", b_index);
 
   t.i = 100;
   t.c = 'z';
-  z_index = linear_search(da._data, da.size, sizeof(Test), &t, test_comp);
+  z_index = linear_search(da._data, da.size, sizeof(Test), &t, (bin_op_comp_t)test_comp);
   printf("index of z: %zu\n", z_index);
 
-  quick_sort(da._data, da.size, sizeof(Test), test_comp);
+  quick_sort(da._data, da.size, sizeof(Test), (bin_op_comp_t)test_comp);
   printf("dyn word: ");
   for (i = 0; i < da.size; i++)
     printf("%c", ((Test *)dyn_array_get(&da, i))->c);
@@ -69,7 +69,7 @@ int main() {
 
   t.i = 1;
   t.c = 'b';
-  b_index = binary_search(da._data, da.size, sizeof(Test), &t, test_comp);
+  b_index = binary_search(da._data, da.size, sizeof(Test), &t, (bin_op_comp_t)test_comp);
   printf("index of b: %zu\n", b_index);
 
   dyn_array_destroy(&da);
