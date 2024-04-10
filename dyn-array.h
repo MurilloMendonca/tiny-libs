@@ -1,6 +1,7 @@
 #ifndef _DYN_ARRAY_
 #define _DYN_ARRAY_
 
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -41,10 +42,7 @@ void dyn_array_destroy(Dyn_array* da){
 void dyn_array_push_back(Dyn_array* da, Val_t elem){
     if(!da->_data || da->cap==0 || da->cap<=da->size) {
         int newCap = da->cap==0?INITIAL_CAP:da->cap*GROWTH_FACTOR;
-        Val_t newData = (Val_t)malloc(newCap*da->elem_size);
-        memcpy(newData, da->_data, da->elem_size*da->size);
-        free(da->_data);
-        da->_data = newData;
+        da->_data = (Val_t)realloc(da->_data, newCap*da->elem_size);
         da->cap = newCap;
     }
     memcpy(((da->_data) + (da->size*da->elem_size)), elem, da->elem_size);
