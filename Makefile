@@ -2,7 +2,7 @@
 
 all: test
 
-test: test-dyn-array test-sort-n-search test-logger test-arena
+test: test-dyn-array test-sort-n-search test-logger test-arena test-stack-arena
 
 test-dyn-array: test-dyn-array-c test-dyn-array-cpp
 
@@ -21,15 +21,18 @@ test-logger: test-logger.c logger.h
 test-arena: test-arena.c arena.h
 	cc -std=c89 test-arena.c -o test-arena
 
+test-stack-arena: test-stack-arena.c arena.h
+	cc -std=c89 test-stack-arena.c -o test-stack-arena
 run-tests: test
 	./test-dyn-array-c
 	./test-dyn-array-cpp
 	./test-sort-n-search
 	./test-logger
 	./test-arena
+	./test-stack-arena
 
 clear:
-	rm test-dyn-array-c test-dyn-array-cpp test-sort-n-search test-logger test-arena
+	rm test-dyn-array-c test-dyn-array-cpp test-sort-n-search test-logger test-arena test-stack-arena
 clean: clear
 
 .SUFFIXES:
