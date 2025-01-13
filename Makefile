@@ -2,7 +2,7 @@
 
 all: test
 
-test: test-dyn-array test-sort-n-search test-logger test-arena test-stack-arena
+test: test-dyn-array test-sort-n-search test-logger test-arena test-stack-arena test-string-view
 
 test-dyn-array: test-dyn-array-c test-dyn-array-cpp
 
@@ -23,6 +23,9 @@ test-arena: test-arena.c arena.h
 
 test-stack-arena: test-stack-arena.c arena.h
 	cc -std=c89 test-stack-arena.c -o test-stack-arena
+
+test-string-view: test-string-view.c string_utils.h
+	cc -std=c89 test-string-view.c -o test-string-view
 run-tests: test
 	./test-dyn-array-c
 	./test-dyn-array-cpp
@@ -30,9 +33,10 @@ run-tests: test
 	./test-logger
 	./test-arena
 	./test-stack-arena
+	./test-string-view
 
 clear:
-	rm test-dyn-array-c test-dyn-array-cpp test-sort-n-search test-logger test-arena test-stack-arena
+	rm test-dyn-array-c test-dyn-array-cpp test-sort-n-search test-logger test-arena test-stack-arena test-string-view
 clean: clear
 
 .SUFFIXES:
